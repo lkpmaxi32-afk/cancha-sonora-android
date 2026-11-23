@@ -1,0 +1,61 @@
+CANCHA SONORA - proyecto Android Studio (Capacitor)
+====================================================
+
+AVISO: no pude compilar el APK en mi entorno (no tiene el SDK de Android).
+La app web la probé en un navegador. La parte nativa (servicio de la notificación,
+manifest, íconos, gradle) está escrita pero SIN compilar. Si Android Studio muestra
+un error al compilar, copiá el mensaje y se corrige.
+
+DE ZIP A APK (con Android Studio)
+---------------------------------
+Necesitás: Node.js (versión LTS, nodejs.org) y Android Studio (developer.android.com/studio).
+Internet la primera vez.
+
+1. Descomprimí el ZIP. Vas a tener la carpeta "cancha-sonora-android".
+2. Abrí una terminal DENTRO de esa carpeta (donde está package.json) y ejecutá:
+       npm install
+   Baja la parte de Capacitor que usa el proyecto (crea la carpeta node_modules).
+3. Abrí Android Studio > Open > elegí la carpeta "android" (la de adentro, no la raíz).
+   Marcá "Trust Project".
+4. Esperá a que termine "Gradle Sync" (abajo a la derecha; la primera vez tarda varios minutos).
+   - Si pide instalar Android SDK Platform 34 o Build-Tools: aceptá e instalá.
+   - Si sugiere actualizar el Android Gradle Plugin: elegí no actualizar / "Remind me later".
+5. Menú Build > Build Bundle(s) / APK(s) > Build APK(s).
+6. Al terminar aparece "APK(s) generated successfully": tocá "locate".
+   El archivo es: android/app/build/outputs/apk/debug/app-debug.apk
+7. Pasalo al celular (cable, Drive, WhatsApp) y tocalo para instalar.
+   Android pide permitir "instalar apps desconocidas" para la app desde la que lo abrís: aceptá.
+8. Abrí "Cancha Sonora" (ícono de pelota verde) y aceptá el permiso de notificaciones.
+9. Para que Android no corte la música: Ajustes > Apps > Cancha Sonora > Batería > Sin restricciones.
+
+DE ZIP A APK (sin instalar nada, con GitHub)
+--------------------------------------------
+1. Creá un repositorio en github.com y subí TODO el contenido de esta carpeta
+   (incluida la carpeta oculta .github).
+2. Pestaña "Actions" > "Generar APK" > "Run workflow".
+3. Cuando termine, entrá a la ejecución y bajá "cancha-sonora-apk": adentro está app-debug.apk.
+
+POR LÍNEA DE COMANDOS (JDK 17 y Android SDK instalados)
+-------------------------------------------------------
+    npm install
+    cd android
+    ./gradlew assembleDebug        (en Windows: gradlew.bat assembleDebug)
+
+COMO SE USA
+-----------
+- "Agregar archivos": elegí varias canciones. Quedan guardadas en el reproductor, en una lista
+  (con el nombre de la carpeta si el selector la informa; si no, "Selección fecha").
+  Podés renombrarla en la pestaña Listas. Al cerrar y abrir la app siguen ahí.
+- "Abrir carpeta" funciona en la computadora; en Android el selector no deja elegir carpetas
+  enteras, por eso conviene marcar varios archivos.
+- Las canciones se copian al almacenamiento de la app: ocupan espacio dos veces.
+  Para liberar lugar, borrá la lista desde la pestaña Listas.
+
+DONDE ESTAN LAS COSAS
+---------------------
+- La app (HTML): android/app/src/main/assets/public/index.html  (copia en www/index.html)
+- Manifest: android/app/src/main/AndroidManifest.xml (ya apunta al ícono @mipmap/ic_launcher)
+- Ícono: android/app/src/main/res/mipmap-*/ y mipmap-anydpi-v26/ (pelota verde, fondo transparente)
+- Notificación y segundo plano: MediaService.java, MediaBridge.java y MainActivity.java
+- Para actualizar la app web: reemplazá index.html en las dos rutas y volvé a compilar.
+- No ejecutes "npx cap sync": este proyecto trae su propia configuración y puede pisarla.

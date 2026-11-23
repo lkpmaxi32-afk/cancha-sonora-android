@@ -1,0 +1,8 @@
+{
+  "appId": "com.canchasonora.app",
+  "appName": "Cancha Sonora",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "backgroundColor": "#18120E",
+  "plugins": {}
+}
